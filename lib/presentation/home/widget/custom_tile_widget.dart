@@ -55,11 +55,22 @@ class CustomTileWidget extends StatelessWidget {
               trailing: SizedBox(
                 width: 80,
                 child: TextFormField(
+                  controller: state.data.controllers[index],
+                  textAlign: TextAlign.right,
+                  textAlignVertical: TextAlignVertical.center,
+                  style: TextStyle(
+                    fontSize: AppDimens.fontSizeDefault,
+                    color: AppColor.customBrown1,
+                    fontWeight: FontWeight.bold,
+                  ),
                   readOnly: true,
                   decoration: InputDecoration(
                     border: _customInputBorder(),
                     focusedBorder: _customInputBorder(),
                     enabledBorder: _customInputBorder(),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: AppDimens.padding8,
+                    ),
                   ),
                 ),
               ),

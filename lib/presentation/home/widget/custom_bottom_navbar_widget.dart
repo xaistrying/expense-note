@@ -43,47 +43,37 @@ class _CustomBottomNavbarWidgetState extends State<CustomBottomNavbarWidget>
       },
       child: SlideTransition(
         position: _slideAnimation,
-        child: Theme(
-          data: ThemeData(
-            hoverColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            splashColor: AppColor.customBrown2.withValues(alpha: 160),
-          ),
-          child: NavigationBar(
-            height: 60,
-            backgroundColor: AppColor.customBrown1,
-            indicatorShape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
-            ),
-            indicatorColor: Colors.transparent,
-            labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-            destinations: [
-              Padding(
-                padding: const EdgeInsets.all(AppDimens.padding4),
-                child: NavigationDestination(
-                  icon: SizedBox(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: Icon(
-                      MingCute.add_fill,
-                      color: AppColor.customBrown3,
-                    ),
+        child: Container(
+          height: 60,
+          decoration: BoxDecoration(color: AppColor.customBrown1),
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.all(AppDimens.padding4),
+                  height: double.infinity,
+                  child: IconButton(
+                    onPressed:
+                        () => context.read<HandleTileCubit>().updateValue(
+                          UpdateType.add,
+                        ),
+                    style: _customButtonStyle(),
+                    icon: Icon(MingCute.add_fill),
                   ),
-                  label: '',
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(AppDimens.padding4),
-                child: NavigationDestination(
-                  icon: SizedBox(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: Icon(
-                      MingCute.minimize_fill,
-                      color: AppColor.customBrown3,
-                    ),
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.all(AppDimens.padding4),
+                  height: double.infinity,
+                  child: IconButton(
+                    onPressed:
+                        () => context.read<HandleTileCubit>().updateValue(
+                          UpdateType.minus,
+                        ),
+                    style: _customButtonStyle(),
+                    icon: Icon(MingCute.minimize_fill),
                   ),
-                  label: '',
                 ),
               ),
             ],
@@ -93,3 +83,15 @@ class _CustomBottomNavbarWidgetState extends State<CustomBottomNavbarWidget>
     );
   }
 }
+
+ButtonStyle _customButtonStyle() => IconButton.styleFrom(
+  backgroundColor: Colors.transparent,
+  foregroundColor: AppColor.customBrown3,
+  focusColor: Colors.transparent,
+  hoverColor: Colors.transparent,
+  overlayColor: AppColor.customBrown3,
+  iconSize: AppDimens.iconSize28,
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
+  ),
+);

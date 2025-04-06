@@ -23,8 +23,19 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class HomeBody extends StatelessWidget {
+class HomeBody extends StatefulWidget {
   const HomeBody({super.key});
+
+  @override
+  State<HomeBody> createState() => _HomeBodyState();
+}
+
+class _HomeBodyState extends State<HomeBody> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<HandleTileCubit>().updateControllers(5);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +52,7 @@ class HomeBody extends StatelessWidget {
               builder: (context) {
                 return IconButton(
                   onPressed: () => Scaffold.of(context).openDrawer(),
-                  icon: Icon(Icons.menu_rounded),
+                  icon: Icon(Icons.menu_rounded, size: AppDimens.iconSize28),
                 );
               },
             ),
@@ -61,7 +72,7 @@ class HomeBody extends StatelessWidget {
               ),
               backgroundColor: WidgetStatePropertyAll(AppColor.customBrown3),
               padding: const WidgetStatePropertyAll(
-                EdgeInsets.all(AppDimens.padding8),
+                EdgeInsets.all(AppDimens.padding4),
               ),
             ),
             icon: Icon(
@@ -86,7 +97,6 @@ class HomeBody extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: AppDimens.padding4),
               child: CustomTileWidget(index: index),
             ),
-
         padding: const EdgeInsets.symmetric(
           horizontal: AppDimens.padding8,
           vertical: AppDimens.padding16,
