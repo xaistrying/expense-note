@@ -4,7 +4,7 @@ part of 'handle_tile_cubit.dart';
 abstract class HandleTileStateData with _$HandleTileStateData {
   const factory HandleTileStateData({
     int? selectedTileIndex,
-    @Default([]) List<TextEditingController> controllers,
+    @Default([]) List<TileDataModel> tiles,
   }) = _HandleTileStateData;
 }
 
@@ -15,6 +15,6 @@ abstract class HandleTileState with _$HandleTileState {
       TileSelectionChanged;
   const factory HandleTileState.controllersUpdated(HandleTileStateData data) =
       ControllersUpdated;
-  const factory HandleTileState.valueUpdated(HandleTileStateData data) =
-      ValueUpdated;
+  const factory HandleTileState.valueUpdating(HandleTileStateData data) =
+      ValueUpdating;
 }

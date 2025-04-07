@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
+import 'package:expense_note/domain/model/tile_data_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'handle_tile_state.dart';
@@ -16,38 +16,35 @@ class HandleTileCubit extends Cubit<HandleTileState> {
     }
   }
 
-  void updateControllers(int length) {
-    var controllers = [...state.data.controllers];
-    if (controllers.isEmpty) {
-      for (int i = 0; i < length; i++) {
-        controllers.add(TextEditingController(text: '1'));
-      }
-    }
-    emit(ControllersUpdated(state.data.copyWith(controllers: controllers)));
+  void updateControllers({String? name, num? price}) {
+    TileDataModel tile = TileDataModel(name: name, price: price);
+    var tiles = [...state.data.tiles];
+    tiles.add(tile);
+    emit(ControllersUpdated(state.data.copyWith(tiles: tiles)));
   }
 
-  void updateValue(UpdateType type) {
+  void updateValue(UpdateValueType type) {
+    emit(ValueUpdating(state.data));
+
     var index = state.data.selectedTileIndex;
-    var controllers = [...state.data.controllers];
+    var tiles = [...state.data.tiles];
     if (index != null) {
-      if (controllers.length > index) {
-        var value = int.tryParse(controllers[index].text);
-        if (value != null) {
-          switch (type) {
-            case UpdateType.add:
-              controllers[index].text = (++value).toString();
-              break;
-            case UpdateType.minus:
-              if (value != 0) {
-                controllers[index].text = (--value).toString();
-              }
-              break;
-          }
+      if (tiles.length > index) {
+        var value = tiles[index].times?.toInt() ?? 0;
+        switch (type) {
+          case UpdateValueType.add:
+            tiles[index].times = ++value;
+            break;
+          case UpdateValueType.minus:
+            if (value != 0) {
+              tiles[index].times = --value;
+            }
+            break;
         }
       }
-      emit(ValueUpdated(state.data.copyWith(controllers: controllers)));
+      emit(ControllersUpdated(state.data.copyWith(tiles: tiles)));
     }
   }
 }
 
-enum UpdateType { add, minus }
+enum UpdateValueType { add, minus }

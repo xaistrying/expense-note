@@ -1,5 +1,4 @@
 import 'package:expense_note/app/router/app_router.dart';
-import 'package:expense_note/app/style/gap.dart';
 import 'package:expense_note/presentation/home/cubit/handle_tile_cubit.dart';
 import 'package:expense_note/presentation/home/widget/custom_tile_widget.dart';
 import 'package:flutter/material.dart';
@@ -34,35 +33,24 @@ class _HomeBodyState extends State<HomeBody> {
   @override
   void initState() {
     super.initState();
-    context.read<HandleTileCubit>().updateControllers(5);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        titleSpacing: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Gap.h12(),
-            Builder(
-              builder: (context) {
-                return IconButton(
-                  onPressed: () => Scaffold.of(context).openDrawer(),
-                  icon: Icon(Icons.menu_rounded, size: AppDimens.iconSize28),
-                );
-              },
-            ),
-            Gap.h12(),
-            Text('data', style: TextStyle(fontSize: AppDimens.fontSizeTitle)),
-          ],
+        titleSpacing: AppDimens.padding16,
+        title: Text(
+          'data',
+          style: TextStyle(fontSize: AppDimens.fontSizeTitle),
         ),
         actions: [
           IconButton(
-            onPressed: () => context.push(AppRouter.statistic),
+            onPressed:
+                () => context.push(
+                  AppRouter.newCard,
+                  extra: {"bloc": context.read<HandleTileCubit>()},
+                ),
             constraints: BoxConstraints(),
             style: ButtonStyle(
               shape: WidgetStatePropertyAll(
@@ -76,31 +64,30 @@ class _HomeBodyState extends State<HomeBody> {
               ),
             ),
             icon: Icon(
-              MingCute.chart_vertical_line,
-              size: AppDimens.iconSize28,
-              color: AppColor.black,
+              MingCute.add_fill,
+              size: AppDimens.iconSize24,
+              color: AppColor.customBrown1,
             ),
           ),
         ],
       ),
-      drawer: Drawer(
-        backgroundColor: AppColor.customBrown2,
-        shape: BeveledRectangleBorder(
-          borderRadius: BorderRadius.only(bottomRight: Radius.circular(28)),
-        ),
-      ),
       bottomNavigationBar: CustomBottomNavbarWidget(),
-      body: ListView.builder(
-        itemCount: 5,
-        itemBuilder:
-            (context, index) => Padding(
-              padding: const EdgeInsets.only(bottom: AppDimens.padding4),
-              child: CustomTileWidget(index: index),
+      body: BlocBuilder<HandleTileCubit, HandleTileState>(
+        builder: (context, state) {
+          final tiles = state.data.tiles;
+          return ListView.builder(
+            itemCount: tiles.length,
+            itemBuilder:
+                (context, index) => Padding(
+                  padding: const EdgeInsets.only(bottom: AppDimens.padding4),
+                  child: CustomTileWidget(index: index),
+                ),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppDimens.padding8,
+              vertical: AppDimens.padding16,
             ),
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppDimens.padding8,
-          vertical: AppDimens.padding16,
-        ),
+          );
+        },
       ),
     );
   }

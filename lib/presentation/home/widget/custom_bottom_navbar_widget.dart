@@ -32,6 +32,12 @@ class _CustomBottomNavbarWidgetState extends State<CustomBottomNavbarWidget>
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocListener<HandleTileCubit, HandleTileState>(
       listener: (context, state) {
@@ -41,11 +47,11 @@ class _CustomBottomNavbarWidgetState extends State<CustomBottomNavbarWidget>
           _controller.reverse();
         }
       },
-      child: SlideTransition(
-        position: _slideAnimation,
-        child: Container(
-          height: 60,
-          decoration: BoxDecoration(color: AppColor.customBrown1),
+      child: Container(
+        height: 60,
+        decoration: BoxDecoration(color: AppColor.customBrown1),
+        child: SlideTransition(
+          position: _slideAnimation,
           child: Row(
             children: [
               Expanded(
@@ -55,7 +61,7 @@ class _CustomBottomNavbarWidgetState extends State<CustomBottomNavbarWidget>
                   child: IconButton(
                     onPressed:
                         () => context.read<HandleTileCubit>().updateValue(
-                          UpdateType.add,
+                          UpdateValueType.add,
                         ),
                     style: _customButtonStyle(),
                     icon: Icon(MingCute.add_fill),
@@ -69,7 +75,7 @@ class _CustomBottomNavbarWidgetState extends State<CustomBottomNavbarWidget>
                   child: IconButton(
                     onPressed:
                         () => context.read<HandleTileCubit>().updateValue(
-                          UpdateType.minus,
+                          UpdateValueType.minus,
                         ),
                     style: _customButtonStyle(),
                     icon: Icon(MingCute.minimize_fill),

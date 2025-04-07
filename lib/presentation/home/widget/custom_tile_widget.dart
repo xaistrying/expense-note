@@ -1,6 +1,7 @@
 import 'package:expense_note/presentation/home/cubit/handle_tile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 import '../../../app/style/app_color.dart';
 import '../../../app/style/app_dimens.dart';
@@ -15,6 +16,7 @@ class CustomTileWidget extends StatelessWidget {
     return BlocBuilder<HandleTileCubit, HandleTileState>(
       builder: (context, state) {
         final isSelected = state.data.selectedTileIndex == index;
+        final tile = state.data.tiles[index];
         return Theme(
           data: ThemeData(highlightColor: Colors.transparent),
           child: Material(
@@ -38,11 +40,11 @@ class CustomTileWidget extends StatelessWidget {
                 vertical: AppDimens.padding4,
               ),
               title: Text(
-                'data',
+                tile.name ?? '',
                 style: TextStyle(fontSize: AppDimens.fontSizeDefault),
               ),
               subtitle: Text(
-                '50,000',
+                (tile.price ?? 0).toString(),
                 style: TextStyle(
                   fontSize: AppDimens.fontSizeDefault,
                   color: AppColor.customBrown1,
@@ -55,9 +57,12 @@ class CustomTileWidget extends StatelessWidget {
               trailing: SizedBox(
                 width: 80,
                 child: TextFormField(
-                  controller: state.data.controllers[index],
+                  controller: TextEditingController(
+                    text: (tile.times ?? 0).toString(),
+                  ),
                   textAlign: TextAlign.right,
                   textAlignVertical: TextAlignVertical.center,
+                  cursorColor: AppColor.customBrown1,
                   style: TextStyle(
                     fontSize: AppDimens.fontSizeDefault,
                     color: AppColor.customBrown1,
@@ -65,6 +70,15 @@ class CustomTileWidget extends StatelessWidget {
                   ),
                   readOnly: true,
                   decoration: InputDecoration(
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.only(left: AppDimens.padding8),
+                      child: Icon(
+                        MingCute.close_fill,
+                        size: AppDimens.iconSize16,
+                        color: AppColor.customBrown1,
+                      ),
+                    ),
+                    prefixIconConstraints: BoxConstraints(),
                     border: _customInputBorder(),
                     focusedBorder: _customInputBorder(),
                     enabledBorder: _customInputBorder(),
