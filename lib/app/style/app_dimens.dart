@@ -10,7 +10,7 @@ class AppDimens {
   static const double borderRadius4 = 4.0;
   static const double borderRadius8 = 8.0;
 
-  static const double borderWidth = 2.0;
+  static const double borderWidth2 = 2.0;
 
   static const double fontSizeTitle = 20.0;
   static const double fontSizeDefault = 16.0;

@@ -100,6 +100,6 @@ InputBorder _customInputBorder() => OutlineInputBorder(
   borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
   borderSide: BorderSide(
     color: AppColor.customBrown1,
-    width: AppDimens.borderWidth,
+    width: AppDimens.borderWidth2,
   ),
 );

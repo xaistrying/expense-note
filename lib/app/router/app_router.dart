@@ -5,6 +5,8 @@ import 'package:expense_note/presentation/statistic/statistic_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../presentation/nav/nav_screen.dart';
+import '../../presentation/setting/setting_screen.dart';
 import '../../presentation/splash/splash_screen.dart';
 
 class AppRouter {
@@ -14,12 +16,44 @@ class AppRouter {
   static const String home = '/home';
   static const String newCard = '/newCard';
   static const String statistic = '/statistic';
+  static const String setting = '/setting';
 
   static final GoRouter _router = GoRouter(
     initialLocation: splash,
     routes: [
+      StatefulShellRoute.indexedStack(
+        builder:
+            (context, state, navigationShell) =>
+                NavScreen(navigationShell: navigationShell),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: home,
+                builder: (context, state) => const HomeScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: statistic,
+                builder: (context, state) => const StatisticScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: setting,
+                builder: (context, state) => const SettingScreen(),
+              ),
+            ],
+          ),
+        ],
+      ),
+
       GoRoute(path: splash, builder: (context, state) => SplashScreen()),
-      GoRoute(path: home, builder: (context, state) => HomeScreen()),
       GoRoute(
         path: newCard,
         builder: (context, state) {
@@ -28,7 +62,6 @@ class AppRouter {
           return BlocProvider.value(value: bloc, child: NewCardScreen());
         },
       ),
-      GoRoute(path: statistic, builder: (context, state) => StatisticScreen()),
     ],
   );
 

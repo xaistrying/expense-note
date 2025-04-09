@@ -8,28 +8,15 @@ import 'package:icons_plus/icons_plus.dart';
 
 import '../../app/style/app_color.dart';
 import '../../app/style/app_dimens.dart';
-import 'widget/custom_bottom_navbar_widget.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HandleTileCubit(),
-      child: const HomeBody(),
-    );
-  }
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class HomeBody extends StatefulWidget {
-  const HomeBody({super.key});
-
-  @override
-  State<HomeBody> createState() => _HomeBodyState();
-}
-
-class _HomeBodyState extends State<HomeBody> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
@@ -71,7 +58,6 @@ class _HomeBodyState extends State<HomeBody> {
           ),
         ],
       ),
-      bottomNavigationBar: CustomBottomNavbarWidget(),
       body: BlocBuilder<HandleTileCubit, HandleTileState>(
         builder: (context, state) {
           final tiles = state.data.tiles;
