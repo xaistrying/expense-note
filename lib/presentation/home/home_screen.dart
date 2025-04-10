@@ -1,4 +1,5 @@
 import 'package:expense_note/app/router/app_router.dart';
+import 'package:expense_note/app/style/gap.dart';
 import 'package:expense_note/presentation/home/cubit/handle_tile_cubit.dart';
 import 'package:expense_note/presentation/home/widget/custom_tile_widget.dart';
 import 'package:flutter/material.dart';
@@ -39,21 +40,36 @@ class _HomeScreenState extends State<HomeScreen> {
                   extra: {"bloc": context.read<HandleTileCubit>()},
                 ),
             constraints: BoxConstraints(),
-            style: ButtonStyle(
-              shape: WidgetStatePropertyAll(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
-                ),
+            style: IconButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
               ),
-              backgroundColor: WidgetStatePropertyAll(AppColor.customBrown3),
-              padding: const WidgetStatePropertyAll(
-                EdgeInsets.all(AppDimens.padding4),
-              ),
+              overlayColor: AppColor.customBrown3,
+              highlightColor: AppColor.customBrown3.withValues(alpha: 220),
+              tapTargetSize: MaterialTapTargetSize.padded,
             ),
             icon: Icon(
               MingCute.add_fill,
               size: AppDimens.iconSize24,
-              color: AppColor.customBrown1,
+              color: AppColor.customBrown3,
+            ),
+          ),
+          Gap.h08(),
+          IconButton(
+            onPressed: () {},
+            constraints: BoxConstraints(),
+            style: IconButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
+              ),
+              overlayColor: AppColor.customBrown3,
+              highlightColor: AppColor.customBrown3.withValues(alpha: 220),
+              tapTargetSize: MaterialTapTargetSize.padded,
+            ),
+            icon: Icon(
+              MingCute.more_2_fill,
+              size: AppDimens.iconSize24,
+              color: AppColor.customBrown3,
             ),
           ),
         ],

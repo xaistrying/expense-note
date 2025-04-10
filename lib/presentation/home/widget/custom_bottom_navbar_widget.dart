@@ -23,35 +23,28 @@ class _CustomBottomNavbarWidgetState extends State<CustomBottomNavbarWidget>
 
   late AnimationController _controller;
   late Animation<Offset> _slideAnimation;
-
-  late AnimationController _navController;
   late Animation<Offset> _navSlideAnimation;
 
   @override
   void initState() {
     super.initState();
 
-    _controller = AnimationController(duration: Durations.medium1, vsync: this);
-    _navController = AnimationController(
-      duration: Durations.medium1,
-      vsync: this,
-    );
+    _controller = AnimationController(duration: Durations.medium2, vsync: this);
 
     _slideAnimation = Tween<Offset>(
-      begin: Offset(0, 1),
+      begin: Offset(0, 2),
       end: Offset(0, 0),
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
     _navSlideAnimation = Tween<Offset>(
       begin: Offset(0, 0),
-      end: Offset(0, 1),
-    ).animate(CurvedAnimation(parent: _navController, curve: Curves.easeInOut));
+      end: Offset(0, 2),
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
   void dispose() {
     super.dispose();
     _controller.dispose();
-    _navController.dispose();
   }
 
   @override
@@ -59,15 +52,9 @@ class _CustomBottomNavbarWidgetState extends State<CustomBottomNavbarWidget>
     return BlocListener<HandleTileCubit, HandleTileState>(
       listener: (context, state) {
         if (state.data.selectedTileIndex != null) {
-          _navController.forward();
-          Future.delayed(Durations.medium1, () {
-            _controller.forward();
-          });
+          _controller.forward();
         } else {
           _controller.reverse();
-          Future.delayed(Durations.medium1, () {
-            _navController.reverse();
-          });
         }
       },
       child: Container(
