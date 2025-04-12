@@ -1,5 +1,3 @@
-library flutter_popup;
-
 import 'dart:math';
 import 'dart:ui';
 

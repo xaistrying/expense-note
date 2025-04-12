@@ -20,6 +20,7 @@ class CustomPopup extends StatelessWidget {
   final Color? hoverColor;
   final EdgeInsets? padding;
   final BorderRadiusGeometry? borderRadius;
+  final Color? shadowColor;
 
   const CustomPopup({
     super.key,
@@ -40,6 +41,7 @@ class CustomPopup extends StatelessWidget {
     this.hoverColor,
     this.padding,
     this.borderRadius,
+    this.shadowColor,
   });
 
   void _show(BuildContext context) {
@@ -60,6 +62,7 @@ class CustomPopup extends StatelessWidget {
         contentPadding: contentPadding,
         contentRadius: contentRadius,
         contentDecoration: contentDecoration,
+        shadowColor: shadowColor,
         child: content,
       ),
     );
@@ -97,6 +100,7 @@ class _PopupContent extends StatelessWidget {
   final EdgeInsets contentPadding;
   final double? contentRadius;
   final BoxDecoration? contentDecoration;
+  final Color? shadowColor;
 
   const _PopupContent({
     required this.child,
@@ -110,6 +114,7 @@ class _PopupContent extends StatelessWidget {
     this.contentRadius,
     required this.contentPadding,
     this.contentDecoration,
+    this.shadowColor,
   });
 
   @override
@@ -131,7 +136,9 @@ class _PopupContent extends StatelessWidget {
                 borderRadius: BorderRadius.circular(contentRadius ?? 10),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 200),
+                    color:
+                        shadowColor?.withValues(alpha: 200) ??
+                        Colors.black.withValues(alpha: 200),
                     blurRadius: 10,
                   ),
                 ],
@@ -225,6 +232,7 @@ class _PopupRoute extends PopupRoute<void> {
   final EdgeInsets contentPadding;
   final double? contentRadius;
   final BoxDecoration? contentDecoration;
+  final Color? shadowColor;
 
   double _maxHeight = _viewportRect.height;
   _ArrowDirection _arrowDirection = _ArrowDirection.top;
@@ -246,6 +254,7 @@ class _PopupRoute extends PopupRoute<void> {
     required this.contentPadding,
     this.contentRadius,
     this.contentDecoration,
+    this.shadowColor,
   });
 
   @override
@@ -369,6 +378,7 @@ class _PopupRoute extends PopupRoute<void> {
       contentPadding: contentPadding,
       contentRadius: contentRadius,
       contentDecoration: contentDecoration,
+      shadowColor: shadowColor,
       child: child,
     );
     if (!animation.isCompleted) {

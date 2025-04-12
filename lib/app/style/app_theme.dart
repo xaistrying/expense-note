@@ -11,6 +11,14 @@ class AppTheme {
     brightness: Brightness.light,
     scaffoldBackgroundColor: AppColor.customBrown2,
 
+    pageTransitionsTheme: PageTransitionsTheme(
+      builders: {
+        TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+        TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder(),
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+      },
+    ),
+
     appBarTheme: AppBarTheme(
       toolbarHeight: 60,
       backgroundColor: AppColor.customBrown1,

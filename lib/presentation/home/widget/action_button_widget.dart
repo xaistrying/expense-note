@@ -51,6 +51,7 @@ class ActionButtonWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppDimens.borderRadius8),
           padding: EdgeInsets.zero,
           contentPadding: EdgeInsets.zero,
+          shadowColor: AppColor.customBrown3,
           content: SizedBox(
             width: 120,
             child: Column(
