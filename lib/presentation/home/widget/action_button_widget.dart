@@ -8,7 +8,7 @@ import '../../../app/style/app_color.dart';
 import '../../../app/style/app_dimens.dart';
 import '../../../app/style/gap.dart';
 import '../../../app/widget/flutter_popup/flutter_popup.dart';
-import '../cubit/handle_tile_cubit.dart';
+import '../cubit/handle_card_cubit.dart';
 
 class ActionButtonWidget extends StatelessWidget {
   const ActionButtonWidget({super.key});
@@ -22,7 +22,7 @@ class ActionButtonWidget extends StatelessWidget {
           onPressed:
               () => context.push(
                 AppRouter.newCard,
-                extra: {"bloc": context.read<HandleTileCubit>()},
+                extra: {"bloc": context.read<HandleCardCubit>()},
               ),
           constraints: BoxConstraints(),
           style: IconButton.styleFrom(
@@ -51,42 +51,19 @@ class ActionButtonWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppDimens.borderRadius8),
           padding: EdgeInsets.zero,
           contentPadding: EdgeInsets.zero,
-          shadowColor: AppColor.customBrown3,
+          shadowColor: AppColor.customBrown2,
           content: SizedBox(
             width: 120,
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: List.generate(
-                2,
-                (index) => SizedBox(
-                  width: double.infinity,
-                  child: TextButton(
-                    onPressed: () {
-                      context.pop();
-                    },
-                    style: IconButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                          AppDimens.borderRadius4,
-                        ),
-                      ),
-                      overlayColor: AppColor.customBrown2,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: AppDimens.padding16,
-                        vertical: AppDimens.padding24,
-                      ),
-                      alignment: Alignment.centerLeft,
-                    ),
-                    child: Text(
-                      'data',
-                      style: TextStyle(
-                        fontSize: AppDimens.fontSizeDefault,
-                        color: AppColor.black,
-                      ),
-                    ),
-                  ),
+              children: [
+                _customMenuItem(
+                  onPressed: () {
+                    context.pop();
+                    context.read<HandleCardCubit>().changeEditingState();
+                  },
                 ),
-              ),
+              ],
             ),
           ),
           child: Icon(
@@ -99,3 +76,28 @@ class ActionButtonWidget extends StatelessWidget {
     );
   }
 }
+
+Widget _customMenuItem({required VoidCallback onPressed}) => SizedBox(
+  width: double.infinity,
+  child: TextButton(
+    onPressed: onPressed,
+    style: IconButton.styleFrom(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
+      ),
+      overlayColor: AppColor.customBrown2,
+      padding: EdgeInsets.symmetric(
+        horizontal: AppDimens.padding16,
+        vertical: AppDimens.padding24,
+      ),
+      alignment: Alignment.centerLeft,
+    ),
+    child: Text(
+      'data',
+      style: TextStyle(
+        fontSize: AppDimens.fontSizeDefault,
+        color: AppColor.black,
+      ),
+    ),
+  ),
+);

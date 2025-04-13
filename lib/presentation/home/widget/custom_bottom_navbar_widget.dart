@@ -1,4 +1,4 @@
-import 'package:expense_note/presentation/home/cubit/handle_tile_cubit.dart';
+import 'package:expense_note/presentation/home/cubit/handle_card_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -49,9 +49,9 @@ class _CustomBottomNavbarWidgetState extends State<CustomBottomNavbarWidget>
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<HandleTileCubit, HandleTileState>(
+    return BlocListener<HandleCardCubit, HandleCardState>(
       listener: (context, state) {
-        if (state.data.selectedTileIndex != null) {
+        if (state.data.selectedCardIndex != null) {
           _controller.forward();
         } else {
           _controller.reverse();
@@ -143,7 +143,7 @@ class _CustomBottomNavbarWidgetState extends State<CustomBottomNavbarWidget>
               height: double.infinity,
               child: customIconButton(
                 onPressed:
-                    () => context.read<HandleTileCubit>().updateValue(
+                    () => context.read<HandleCardCubit>().updateValue(
                       UpdateValueType.add,
                     ),
                 iconData: MingCute.add_fill,
@@ -162,7 +162,7 @@ class _CustomBottomNavbarWidgetState extends State<CustomBottomNavbarWidget>
               height: double.infinity,
               child: customIconButton(
                 onPressed:
-                    () => context.read<HandleTileCubit>().updateValue(
+                    () => context.read<HandleCardCubit>().updateValue(
                       UpdateValueType.minus,
                     ),
                 iconData: MingCute.minimize_fill,

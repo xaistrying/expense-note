@@ -1,4 +1,4 @@
-import 'package:expense_note/presentation/home/cubit/handle_tile_cubit.dart';
+import 'package:expense_note/presentation/home/cubit/handle_card_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -52,7 +52,7 @@ class _NewCardScreenState extends State<NewCardScreen> {
             _customTitleWithTextField(priceTextController),
             Spacer(),
             _customCreateTileButton(() {
-              context.read<HandleTileCubit>().updateControllers(
+              context.read<HandleCardCubit>().addNewCard(
                 name: nameTextController.text,
                 price: num.tryParse(priceTextController.text),
               );

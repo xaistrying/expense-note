@@ -1,4 +1,4 @@
-import 'package:expense_note/presentation/home/cubit/handle_tile_cubit.dart';
+import 'package:expense_note/presentation/home/cubit/handle_card_cubit.dart';
 import 'package:expense_note/presentation/home/home_screen.dart';
 import 'package:expense_note/presentation/new_card/new_card_screen.dart';
 import 'package:expense_note/presentation/statistic/statistic_screen.dart';
@@ -58,7 +58,7 @@ class AppRouter {
         path: newCard,
         builder: (context, state) {
           Map<String, dynamic>? extra = state.extra as Map<String, dynamic>?;
-          var bloc = extra?['bloc'] as HandleTileCubit;
+          var bloc = extra?['bloc'] as HandleCardCubit;
           return BlocProvider.value(value: bloc, child: NewCardScreen());
         },
       ),

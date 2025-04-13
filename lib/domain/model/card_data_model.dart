@@ -1,25 +1,25 @@
 import 'dart:convert';
 
-class TileDataModel {
+class CardDataModel {
   String? name;
   num? price;
   num? times;
 
-  TileDataModel({this.name, this.price, this.times});
+  CardDataModel({this.name, this.price, this.times});
 
-  TileDataModel copyWith({String? name, num? price, num? times}) =>
-      TileDataModel(
+  CardDataModel copyWith({String? name, num? price, num? times}) =>
+      CardDataModel(
         name: name ?? this.name,
         price: price ?? this.price,
         times: times ?? this.times,
       );
 
-  factory TileDataModel.fromRawJson(String str) =>
-      TileDataModel.fromJson(json.decode(str));
+  factory CardDataModel.fromRawJson(String str) =>
+      CardDataModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory TileDataModel.fromJson(Map<String, dynamic> json) => TileDataModel(
+  factory CardDataModel.fromJson(Map<String, dynamic> json) => CardDataModel(
     name: json["name"],
     price: json["price"],
     times: json["times"],

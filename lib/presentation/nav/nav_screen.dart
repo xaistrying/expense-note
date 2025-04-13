@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../home/cubit/handle_tile_cubit.dart';
+import '../home/cubit/handle_card_cubit.dart';
 import '../home/widget/custom_bottom_navbar_widget.dart';
 
 class NavScreen extends StatelessWidget {
@@ -13,7 +13,7 @@ class NavScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HandleTileCubit(),
+      create: (context) => HandleCardCubit(),
       child: NavBody(navigationShell: navigationShell),
     );
   }

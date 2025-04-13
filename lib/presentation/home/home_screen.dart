@@ -1,4 +1,4 @@
-import 'package:expense_note/presentation/home/cubit/handle_tile_cubit.dart';
+import 'package:expense_note/presentation/home/cubit/handle_card_cubit.dart';
 import 'package:expense_note/presentation/home/widget/custom_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,9 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [ActionButtonWidget()],
       ),
-      body: BlocBuilder<HandleTileCubit, HandleTileState>(
+      body: BlocBuilder<HandleCardCubit, HandleCardState>(
         builder: (context, state) {
-          final tiles = state.data.tiles;
+          final tiles = state.data.listCards;
           return ListView.builder(
             itemCount: tiles.length,
             itemBuilder:
