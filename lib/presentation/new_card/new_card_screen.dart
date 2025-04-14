@@ -51,7 +51,7 @@ class _NewCardScreenState extends State<NewCardScreen> {
             Gap.v20(),
             _customTitleWithTextField(priceTextController),
             Spacer(),
-            _customCreateTileButton(() {
+            _customCreateCardButton(() {
               context.read<HandleCardCubit>().addNewCard(
                 name: nameTextController.text,
                 price: num.tryParse(priceTextController.text),
@@ -106,7 +106,7 @@ class _NewCardScreenState extends State<NewCardScreen> {
     ],
   );
 
-  Widget _customCreateTileButton(VoidCallback onPressed) => SizedBox(
+  Widget _customCreateCardButton(VoidCallback onPressed) => SizedBox(
     width: double.infinity,
     child: TextButton(
       onPressed: onPressed,

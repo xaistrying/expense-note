@@ -12,8 +12,8 @@ abstract class HandleCardStateData with _$HandleCardStateData {
 @freezed
 abstract class HandleCardState with _$HandleCardState {
   const factory HandleCardState.initial(HandleCardStateData data) = _Initial;
-  const factory HandleCardState.tileSelectionChanged(HandleCardStateData data) =
-      TileSelectionChanged;
+  const factory HandleCardState.cardSelectionChanged(HandleCardStateData data) =
+      CardSelectionChanged;
   const factory HandleCardState.valueUpdating(HandleCardStateData data) =
       ValueUpdating;
   const factory HandleCardState.editingStateChanged(HandleCardStateData data) =

@@ -6,10 +6,15 @@ import 'package:icons_plus/icons_plus.dart';
 import '../../../app/style/app_color.dart';
 import '../../../app/style/app_dimens.dart';
 
-class CustomTileWidget extends StatelessWidget {
-  const CustomTileWidget({super.key, required this.index});
+class CustomCardWidget extends StatelessWidget {
+  const CustomCardWidget({
+    super.key,
+    required this.index,
+    required this.isEditingEnabled,
+  });
 
   final int index;
+  final bool isEditingEnabled;
 
   @override
   Widget build(BuildContext context) {
@@ -21,33 +26,43 @@ class CustomTileWidget extends StatelessWidget {
         return Theme(
           data: ThemeData(highlightColor: Colors.transparent),
           child: Material(
-            color: AppColor.customBrown3,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
-              side:
-                  isSelected
-                      ? BorderSide(
-                        color: AppColor.customBrown1,
-                        width: 2,
-                        strokeAlign: BorderSide.strokeAlignOutside,
-                      )
-                      : BorderSide.none,
-            ),
+            color: Colors.transparent,
             child: ListTile(
               onTap:
                   state.data.isEditingEnabled
                       ? () {}
                       : () => context
                           .read<HandleCardCubit>()
-                          .changeSelectedTile(index),
+                          .changeSelectedCard(index),
               onLongPress:
                   () => context.read<HandleCardCubit>().changeEditingState(),
+
+              // style
+              tileColor:
+                  state.data.selectedCardIndex != null
+                      ? isSelected
+                          ? AppColor.customBrown3
+                          : AppColor.customBrown3.withValues(alpha: 80)
+                      : AppColor.customBrown3,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
+                side:
+                    isSelected
+                        ? BorderSide(
+                          color: AppColor.customBrown1,
+                          width: AppDimens.borderWidth2,
+                          strokeAlign: BorderSide.strokeAlignOutside,
+                        )
+                        : BorderSide.none,
+              ),
               dense: true,
               splashColor: AppColor.customBrown2.withValues(alpha: 200),
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: AppDimens.padding16,
                 vertical: AppDimens.padding4,
               ),
+
+              // content
               title: Text(
                 card.name ?? '',
                 style: TextStyle(fontSize: AppDimens.fontSizeDefault),
@@ -60,6 +75,16 @@ class CustomTileWidget extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              leading:
+                  isEditingEnabled
+                      ? ReorderableDragStartListener(
+                        index: index,
+                        child: const Icon(
+                          Icons.drag_indicator_rounded,
+                          color: AppColor.customBrown1,
+                        ),
+                      )
+                      : null,
               trailing:
                   isEditingEnabled
                       ? IconButton(

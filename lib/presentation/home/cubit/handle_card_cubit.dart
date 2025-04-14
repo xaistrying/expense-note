@@ -8,18 +8,18 @@ part 'handle_card_cubit.freezed.dart';
 class HandleCardCubit extends Cubit<HandleCardState> {
   HandleCardCubit() : super(HandleCardState.initial(HandleCardStateData()));
 
-  void changeSelectedTile(int index) {
+  void changeSelectedCard(int index) {
     if (index == state.data.selectedCardIndex) {
-      emit(TileSelectionChanged(state.data.copyWith(selectedCardIndex: null)));
+      emit(CardSelectionChanged(state.data.copyWith(selectedCardIndex: null)));
     } else {
-      emit(TileSelectionChanged(state.data.copyWith(selectedCardIndex: index)));
+      emit(CardSelectionChanged(state.data.copyWith(selectedCardIndex: index)));
     }
   }
 
   void addNewCard({String? name, num? price}) {
-    CardDataModel tile = CardDataModel(name: name, price: price);
+    CardDataModel card = CardDataModel(name: name, price: price);
     var listCards = [...state.data.listCards];
-    listCards.add(tile);
+    listCards.add(card);
     emit(ListCardsChanged(state.data.copyWith(listCards: listCards)));
   }
 
@@ -60,6 +60,10 @@ class HandleCardCubit extends Cubit<HandleCardState> {
   void deleteCard(CardDataModel card) {
     var listCards = [...state.data.listCards];
     listCards.remove(card);
+    emit(ListCardsChanged(state.data.copyWith(listCards: listCards)));
+  }
+
+  void updateListCard({required List<CardDataModel> listCards}) {
     emit(ListCardsChanged(state.data.copyWith(listCards: listCards)));
   }
 }
