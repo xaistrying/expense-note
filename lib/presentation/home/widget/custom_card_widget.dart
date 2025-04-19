@@ -20,7 +20,9 @@ class CustomCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HandleCardCubit, HandleCardState>(
       builder: (context, state) {
-        final isSelected = state.data.selectedCardIndex == index;
+        final isSelected =
+            state.data.selectedCardIndex == index &&
+            state is EditingStateChanged;
         final isEditingEnabled = state.data.isEditingEnabled;
         final card = state.data.listCards[index];
         return Theme(
@@ -39,7 +41,8 @@ class CustomCardWidget extends StatelessWidget {
 
               // style
               tileColor:
-                  state.data.selectedCardIndex != null
+                  state.data.selectedCardIndex != null &&
+                          state.data.isEditingEnabled
                       ? isSelected
                           ? AppColor.customBrown3
                           : AppColor.customBrown3.withValues(alpha: 80)

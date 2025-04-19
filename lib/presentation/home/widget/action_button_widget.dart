@@ -30,7 +30,7 @@ class ActionButtonWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(AppDimens.borderRadius8),
             ),
             overlayColor: AppColor.customBrown3,
-            highlightColor: AppColor.customBrown3.withValues(alpha: 220),
+            highlightColor: AppColor.customBrown3..withAlpha(40),
           ),
           icon: Icon(
             MingCute.add_fill,
@@ -45,13 +45,13 @@ class ActionButtonWidget extends StatelessWidget {
           backgroundColor: AppColor.customBrown3,
           arrowColor: AppColor.customBrown3,
           barrierColor: Colors.transparent,
-          splashColor: AppColor.customBrown3.withValues(alpha: 220),
-          highlightColor: AppColor.customBrown3.withValues(alpha: 220),
-          hoverColor: AppColor.customBrown3.withValues(alpha: 230),
+          splashColor: AppColor.customBrown3.withAlpha(40),
+          highlightColor: AppColor.customBrown3.withAlpha(40),
+          hoverColor: AppColor.customBrown3.withAlpha(40),
           borderRadius: BorderRadius.circular(AppDimens.borderRadius8),
           padding: EdgeInsets.zero,
           contentPadding: EdgeInsets.zero,
-          shadowColor: AppColor.customBrown2,
+          shadowColor: Colors.red,
           content: SizedBox(
             width: 120,
             child: Column(

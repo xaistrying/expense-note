@@ -22,16 +22,24 @@ class _CustomBottomNavbarWidgetState extends State<CustomBottomNavbarWidget>
   StatefulNavigationShell get _navigationShell => widget.navigationShell;
 
   late AnimationController _controller;
-  late Animation<Offset> _slideAnimation;
+  late AnimationController _editcontroller;
+
+  late Animation<Offset> _funcSlideAnimation;
   late Animation<Offset> _navSlideAnimation;
+  late Animation<Offset> _editUpSlideAnimation;
+  late Animation<Offset> _editDownSlideAnimation;
 
   @override
   void initState() {
     super.initState();
 
-    _controller = AnimationController(duration: Durations.medium2, vsync: this);
+    _controller = AnimationController(duration: Durations.medium4, vsync: this);
+    _editcontroller = AnimationController(
+      duration: Durations.medium4,
+      vsync: this,
+    );
 
-    _slideAnimation = Tween<Offset>(
+    _funcSlideAnimation = Tween<Offset>(
       begin: Offset(0, 2),
       end: Offset(0, 0),
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
@@ -39,12 +47,26 @@ class _CustomBottomNavbarWidgetState extends State<CustomBottomNavbarWidget>
       begin: Offset(0, 0),
       end: Offset(0, 2),
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+
+    _editUpSlideAnimation = Tween<Offset>(
+      begin: Offset(0, 2),
+      end: Offset(0, 0),
+    ).animate(
+      CurvedAnimation(parent: _editcontroller, curve: Curves.easeInOut),
+    );
+    _editDownSlideAnimation = Tween<Offset>(
+      begin: Offset(0, 0),
+      end: Offset(0, 2),
+    ).animate(
+      CurvedAnimation(parent: _editcontroller, curve: Curves.easeInOut),
+    );
   }
 
   @override
   void dispose() {
     super.dispose();
     _controller.dispose();
+    _editcontroller.dispose();
   }
 
   @override
@@ -56,79 +78,154 @@ class _CustomBottomNavbarWidgetState extends State<CustomBottomNavbarWidget>
         } else {
           _controller.reverse();
         }
+        if (state is EditingStateChanged) {
+          if (_editcontroller.isForwardOrCompleted) {
+            _editcontroller.reverse();
+          } else {
+            _editcontroller.forward();
+          }
+        }
       },
       child: Container(
         height: 60,
         decoration: BoxDecoration(color: AppColor.customBrown1),
-        child: Stack(children: [_buildNav(), _buildFunction()]),
+        child: Stack(
+          children: [_buildNav(), _buildFunction(), _buildEditFunction()],
+        ),
       ),
     );
   }
 
   Widget _buildNav() {
-    return SlideTransition(
-      position: _navSlideAnimation,
-      child: Row(
-        children: [
-          // Left
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.only(
-                left: AppDimens.padding4,
-                top: AppDimens.padding4,
-                bottom: AppDimens.padding4,
-                right: AppDimens.padding2,
+    return BlocBuilder<HandleCardCubit, HandleCardState>(
+      builder: (context, state) {
+        return SlideTransition(
+          position:
+              (state.data.isEditingEnabled == true ||
+                          _editcontroller.status == AnimationStatus.reverse) &&
+                      state.data.selectedCardIndex == null
+                  ? _editDownSlideAnimation
+                  : _navSlideAnimation,
+          child: Row(
+            children: [
+              // Left
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.only(
+                    left: AppDimens.padding4,
+                    top: AppDimens.padding4,
+                    bottom: AppDimens.padding4,
+                    right: AppDimens.padding2,
+                  ),
+                  height: double.infinity,
+                  child: customIconButton(
+                    onPressed: () => _navigationShell.goBranch(0),
+                    iconData: MingCute.diary_fill,
+                    isSelected: _navigationShell.currentIndex == 0,
+                  ),
+                ),
               ),
-              height: double.infinity,
-              child: customIconButton(
-                onPressed: () => _navigationShell.goBranch(0),
-                iconData: MingCute.diary_fill,
-                isSelected: _navigationShell.currentIndex == 0,
+              // Middle
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.only(
+                    left: AppDimens.padding2,
+                    top: AppDimens.padding4,
+                    bottom: AppDimens.padding4,
+                    right: AppDimens.padding2,
+                  ),
+                  height: double.infinity,
+                  child: customIconButton(
+                    onPressed: () => _navigationShell.goBranch(1),
+                    iconData: MingCute.chart_vertical_fill,
+                    isSelected: _navigationShell.currentIndex == 1,
+                  ),
+                ),
               ),
-            ),
+              // Right
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.only(
+                    left: AppDimens.padding2,
+                    top: AppDimens.padding4,
+                    bottom: AppDimens.padding4,
+                    right: AppDimens.padding4,
+                  ),
+                  height: double.infinity,
+                  child: customIconButton(
+                    onPressed: () => _navigationShell.goBranch(2),
+                    iconData: MingCute.settings_4_fill,
+                    isSelected: _navigationShell.currentIndex == 2,
+                  ),
+                ),
+              ),
+            ],
           ),
-          // Middle
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.only(
-                left: AppDimens.padding2,
-                top: AppDimens.padding4,
-                bottom: AppDimens.padding4,
-                right: AppDimens.padding2,
-              ),
-              height: double.infinity,
-              child: customIconButton(
-                onPressed: () => _navigationShell.goBranch(1),
-                iconData: MingCute.chart_vertical_fill,
-                isSelected: _navigationShell.currentIndex == 1,
-              ),
-            ),
-          ),
-          // Right
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.only(
-                left: AppDimens.padding2,
-                top: AppDimens.padding4,
-                bottom: AppDimens.padding4,
-                right: AppDimens.padding4,
-              ),
-              height: double.infinity,
-              child: customIconButton(
-                onPressed: () => _navigationShell.goBranch(2),
-                iconData: MingCute.settings_4_fill,
-                isSelected: _navigationShell.currentIndex == 2,
-              ),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
   Widget _buildFunction() {
+    return BlocBuilder<HandleCardCubit, HandleCardState>(
+      builder: (context, state) {
+        return SlideTransition(
+          position:
+              (state.data.isEditingEnabled == true ||
+                          _editcontroller.status == AnimationStatus.reverse) &&
+                      state.data.selectedCardIndex != null
+                  ? _editDownSlideAnimation
+                  : _funcSlideAnimation,
+          child: Row(
+            children: [
+              // Left
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.only(
+                    left: AppDimens.padding4,
+                    top: AppDimens.padding4,
+                    bottom: AppDimens.padding4,
+                    right: AppDimens.padding2,
+                  ),
+                  height: double.infinity,
+                  child: customIconButton(
+                    onPressed:
+                        () => context.read<HandleCardCubit>().updateValue(
+                          UpdateValueType.add,
+                        ),
+                    iconData: MingCute.add_fill,
+                  ),
+                ),
+              ),
+              // Right
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.only(
+                    left: AppDimens.padding2,
+                    top: AppDimens.padding4,
+                    bottom: AppDimens.padding4,
+                    right: AppDimens.padding4,
+                  ),
+                  height: double.infinity,
+                  child: customIconButton(
+                    onPressed:
+                        () => context.read<HandleCardCubit>().updateValue(
+                          UpdateValueType.minus,
+                        ),
+                    iconData: MingCute.minimize_fill,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildEditFunction() {
     return SlideTransition(
-      position: _slideAnimation,
+      position: _editUpSlideAnimation,
       child: Row(
         children: [
           // Left
@@ -146,7 +243,7 @@ class _CustomBottomNavbarWidgetState extends State<CustomBottomNavbarWidget>
                     () => context.read<HandleCardCubit>().updateValue(
                       UpdateValueType.add,
                     ),
-                iconData: MingCute.add_fill,
+                iconData: MingCute.close_fill,
               ),
             ),
           ),
@@ -165,7 +262,7 @@ class _CustomBottomNavbarWidgetState extends State<CustomBottomNavbarWidget>
                     () => context.read<HandleCardCubit>().updateValue(
                       UpdateValueType.minus,
                     ),
-                iconData: MingCute.minimize_fill,
+                iconData: MingCute.delete_2_fill,
               ),
             ),
           ),
@@ -198,7 +295,7 @@ ButtonStyle _customButtonStyle() => IconButton.styleFrom(
 );
 
 ButtonStyle _customSelectedButtonStyle() => IconButton.styleFrom(
-  backgroundColor: AppColor.customBrown2.withValues(alpha: 200),
+  backgroundColor: AppColor.customBrown2.withAlpha(40),
   foregroundColor: AppColor.customBrown3,
   focusColor: Colors.transparent,
   hoverColor: Colors.transparent,
