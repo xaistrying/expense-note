@@ -136,10 +136,8 @@ class _PopupContent extends StatelessWidget {
                 borderRadius: BorderRadius.circular(contentRadius ?? 10),
                 boxShadow: [
                   BoxShadow(
-                    color:
-                        shadowColor?.withAlpha(200) ??
-                        Colors.black.withAlpha(200),
-                    blurRadius: 2,
+                    color: Colors.black12,
+                    blurRadius: 8,
                     offset: Offset(0, 2),
                   ),
                 ],

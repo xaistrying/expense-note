@@ -89,7 +89,27 @@ class HandleCardCubit extends Cubit<HandleCardState> {
     emit(ListCardsChanged(state.data.copyWith(listCards: listCards)));
   }
 
-  void changeSelectedListCards(String id) {
+  void changeSelectedListCards({String? id}) {
+    if (id == null) {
+      var listCards = state.data.listCards;
+      var selectedListCards = state.data.selectedListCards;
+      if (listCards.length == selectedListCards.length) {
+        emit(
+          SelectedListCardsChanged(state.data.copyWith(selectedListCards: [])),
+        );
+      } else {
+        emit(
+          SelectedListCardsChanged(
+            state.data.copyWith(
+              selectedListCards:
+                  listCards.map((card) => card.id ?? '').toList(),
+            ),
+          ),
+        );
+      }
+      return;
+    }
+
     var selectedListCards = [...state.data.selectedListCards];
     if (selectedListCards.contains(id)) {
       selectedListCards.remove(id);

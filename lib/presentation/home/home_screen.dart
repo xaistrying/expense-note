@@ -31,21 +31,45 @@ class _HomeScreenState extends State<HomeScreen> {
         title: BlocBuilder<HandleCardCubit, HandleCardState>(
           builder: (context, state) {
             if (state.data.isEditingEnabled) {
+              final listCardsLength = state.data.listCards.length;
+              final selectedListCardsLength =
+                  state.data.selectedListCards.length;
               return Row(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed:
+                        () =>
+                            context
+                                .read<HandleCardCubit>()
+                                .changeSelectedListCards(),
                     style: IconButton.styleFrom(
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       visualDensity: VisualDensity.compact,
                       padding: EdgeInsets.zero,
                     ),
-                    icon: Icon(MingCute.round_line, size: AppDimens.iconSize24),
+                    icon:
+                        listCardsLength == selectedListCardsLength
+                            ? Icon(
+                              MingCute.check_circle_fill,
+                              size: AppDimens.iconSize24,
+                            )
+                            : selectedListCardsLength == 0
+                            ? Icon(
+                              MingCute.round_line,
+                              size: AppDimens.iconSize24,
+                            )
+                            : Icon(
+                              MingCute.minus_circle_fill,
+                              size: AppDimens.iconSize24,
+                            ),
                   ),
                   Gap.h04(),
                   Text(
                     '${state.data.selectedListCards.length} data',
-                    style: TextStyle(fontSize: AppDimens.fontSizeTitle),
+                    style: TextStyle(
+                      fontSize: AppDimens.fontSizeTitle,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ],
               );
@@ -56,12 +80,24 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: Text(
                 'data',
-                style: TextStyle(fontSize: AppDimens.fontSizeTitle),
+                style: TextStyle(
+                  fontSize: AppDimens.fontSizeTitle,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             );
           },
         ),
-        actions: [ActionButtonWidget()],
+        actions: [
+          BlocBuilder<HandleCardCubit, HandleCardState>(
+            builder: (context, state) {
+              if (state.data.isEditingEnabled) {
+                return const SizedBox.shrink();
+              }
+              return ActionButtonWidget();
+            },
+          ),
+        ],
       ),
       body: BlocBuilder<HandleCardCubit, HandleCardState>(
         builder: (context, state) {

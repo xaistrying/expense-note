@@ -40,7 +40,7 @@ class CustomCardWidget extends StatelessWidget {
                   state.data.isEditingEnabled
                       ? () => context
                           .read<HandleCardCubit>()
-                          .changeSelectedListCards(card.id ?? '')
+                          .changeSelectedListCards(id: card.id ?? '')
                       : () => context
                           .read<HandleCardCubit>()
                           .changeSelectedCard(index),
