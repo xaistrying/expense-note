@@ -137,9 +137,10 @@ class _PopupContent extends StatelessWidget {
                 boxShadow: [
                   BoxShadow(
                     color:
-                        shadowColor?.withValues(alpha: 200) ??
-                        Colors.black.withValues(alpha: 200),
-                    blurRadius: 10,
+                        shadowColor?.withAlpha(200) ??
+                        Colors.black.withAlpha(200),
+                    blurRadius: 2,
+                    offset: Offset(0, 2),
                   ),
                 ],
               ),

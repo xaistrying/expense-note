@@ -1,3 +1,4 @@
+import 'package:expense_note/app/widget/ui_helper.dart';
 import 'package:expense_note/presentation/home/cubit/handle_card_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -77,6 +78,7 @@ class _NewCardScreenState extends State<NewCardScreen> {
       ),
       Gap.v08(),
       TextFormField(
+        onTapOutside: (_) => UIHelpers.dismissKeyboard(),
         controller: controller,
         cursorColor: AppColor.customBrown1,
         style: TextStyle(
@@ -118,7 +120,7 @@ class _NewCardScreenState extends State<NewCardScreen> {
         overlayColor: AppColor.customBrown3,
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: AppDimens.padding16),
+        padding: const EdgeInsets.symmetric(vertical: AppDimens.padding8),
         child: Text(
           'data',
           style: TextStyle(fontSize: AppDimens.fontSizeDefault),

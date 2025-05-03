@@ -29,8 +29,8 @@ class ActionButtonWidget extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppDimens.borderRadius8),
             ),
-            overlayColor: AppColor.customBrown3,
-            highlightColor: AppColor.customBrown3..withAlpha(40),
+            overlayColor: AppColor.customBrown3.withAlpha(40),
+            highlightColor: AppColor.customBrown3.withValues(alpha: 210),
           ),
           icon: Icon(
             MingCute.add_fill,
@@ -51,12 +51,18 @@ class ActionButtonWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppDimens.borderRadius8),
           padding: EdgeInsets.zero,
           contentPadding: EdgeInsets.zero,
-          shadowColor: Colors.red,
+          shadowColor: AppColor.customBrown1,
           content: SizedBox(
             width: 120,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                _customMenuItem(
+                  onPressed: () {
+                    context.pop();
+                    context.read<HandleCardCubit>().changeEditingState();
+                  },
+                ),
                 _customMenuItem(
                   onPressed: () {
                     context.pop();
@@ -88,7 +94,7 @@ Widget _customMenuItem({required VoidCallback onPressed}) => SizedBox(
       overlayColor: AppColor.customBrown2,
       padding: EdgeInsets.symmetric(
         horizontal: AppDimens.padding16,
-        vertical: AppDimens.padding24,
+        vertical: AppDimens.padding12,
       ),
       alignment: Alignment.centerLeft,
     ),

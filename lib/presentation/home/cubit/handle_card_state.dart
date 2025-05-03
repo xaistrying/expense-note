@@ -6,6 +6,7 @@ abstract class HandleCardStateData with _$HandleCardStateData {
     int? selectedCardIndex,
     @Default(false) bool isEditingEnabled,
     @Default([]) List<CardDataModel> listCards,
+    @Default([]) List<String> selectedListCards,
   }) = _HandleCardStateData;
 }
 
@@ -20,4 +21,7 @@ abstract class HandleCardState with _$HandleCardState {
       EditingStateChanged;
   const factory HandleCardState.listCardsChanged(HandleCardStateData data) =
       ListCardsChanged;
+  const factory HandleCardState.selectedListCardsChanged(
+    HandleCardStateData data,
+  ) = SelectedListCardsChanged;
 }

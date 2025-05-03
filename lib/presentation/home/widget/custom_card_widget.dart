@@ -20,44 +20,37 @@ class CustomCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HandleCardCubit, HandleCardState>(
       builder: (context, state) {
-        final isSelected =
-            state.data.selectedCardIndex == index &&
-            state is EditingStateChanged;
+        final isSelected = state.data.selectedCardIndex == index;
         final isEditingEnabled = state.data.isEditingEnabled;
         final card = state.data.listCards[index];
         return Theme(
           data: ThemeData(highlightColor: Colors.transparent),
           child: Material(
-            color: Colors.transparent,
+            color:
+                state.data.selectedCardIndex != null
+                    ? isSelected
+                        ? AppColor.customBrown3
+                        : AppColor.lightCustomBrown3
+                    : AppColor.customBrown3,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
+            ),
             child: ListTile(
               onTap:
                   state.data.isEditingEnabled
-                      ? () {}
+                      ? () => context
+                          .read<HandleCardCubit>()
+                          .changeSelectedListCards(card.id ?? '')
                       : () => context
                           .read<HandleCardCubit>()
                           .changeSelectedCard(index),
               onLongPress:
-                  () => context.read<HandleCardCubit>().changeEditingState(),
+                  state.data.isEditingEnabled
+                      ? () {}
+                      : () =>
+                          context.read<HandleCardCubit>().changeEditingState(),
 
               // style
-              tileColor:
-                  state.data.selectedCardIndex != null &&
-                          state.data.isEditingEnabled
-                      ? isSelected
-                          ? AppColor.customBrown3
-                          : AppColor.customBrown3.withValues(alpha: 80)
-                      : AppColor.customBrown3,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
-                side:
-                    isSelected
-                        ? BorderSide(
-                          color: AppColor.customBrown1,
-                          width: AppDimens.borderWidth2,
-                          strokeAlign: BorderSide.strokeAlignOutside,
-                        )
-                        : BorderSide.none,
-              ),
               dense: true,
               splashColor: AppColor.customBrown2.withValues(alpha: 200),
               contentPadding: const EdgeInsets.symmetric(
@@ -80,35 +73,24 @@ class CustomCardWidget extends StatelessWidget {
               ),
               leading:
                   isEditingEnabled
+                      ? state.data.selectedListCards.contains(card.id)
+                          ? Icon(
+                            MingCute.checkbox_fill,
+                            color: AppColor.customBrown1,
+                            size: AppDimens.iconSize24,
+                          )
+                          : Icon(
+                            MingCute.square_line,
+                            color: AppColor.customBrown1,
+                            size: AppDimens.iconSize24,
+                          )
+                      : null,
+              trailing:
+                  isEditingEnabled
                       ? ReorderableDragStartListener(
                         index: index,
                         child: const Icon(
                           Icons.drag_indicator_rounded,
-                          color: AppColor.customBrown1,
-                        ),
-                      )
-                      : null,
-              trailing:
-                  isEditingEnabled
-                      ? IconButton(
-                        onPressed:
-                            () => context.read<HandleCardCubit>().deleteCard(
-                              card,
-                            ),
-                        style: IconButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                              AppDimens.borderRadius8,
-                            ),
-                          ),
-                          overlayColor: AppColor.customBrown1,
-                          highlightColor: AppColor.customBrown1.withValues(
-                            alpha: 220,
-                          ),
-                        ),
-                        icon: Icon(
-                          MingCute.delete_3_fill,
-                          size: AppDimens.iconSize24,
                           color: AppColor.customBrown1,
                         ),
                       )

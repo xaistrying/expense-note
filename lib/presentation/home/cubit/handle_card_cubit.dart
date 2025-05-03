@@ -17,7 +17,9 @@ class HandleCardCubit extends Cubit<HandleCardState> {
   }
 
   void addNewCard({String? name, num? price}) {
-    CardDataModel card = CardDataModel(name: name, price: price);
+    String id = DateTime.now().millisecondsSinceEpoch.toString();
+
+    CardDataModel card = CardDataModel(id: id, name: name, price: price);
     var listCards = [...state.data.listCards];
     listCards.add(card);
     emit(ListCardsChanged(state.data.copyWith(listCards: listCards)));
@@ -52,19 +54,53 @@ class HandleCardCubit extends Cubit<HandleCardState> {
         state.data.copyWith(
           isEditingEnabled: !state.data.isEditingEnabled,
           selectedCardIndex: null,
+          selectedListCards: [],
         ),
       ),
     );
   }
 
-  void deleteCard(CardDataModel card) {
+  void deleteCards() {
     var listCards = [...state.data.listCards];
-    listCards.remove(card);
-    emit(ListCardsChanged(state.data.copyWith(listCards: listCards)));
+    var selectedListCards = [...state.data.selectedListCards];
+    for (var item in selectedListCards) {
+      listCards.removeWhere((e) => e.id == item);
+    }
+    if (listCards.isEmpty) {
+      emit(
+        ListCardsChanged(
+          state.data.copyWith(
+            listCards: listCards,
+            selectedListCards: [],
+            isEditingEnabled: !state.data.isEditingEnabled,
+          ),
+        ),
+      );
+      return;
+    }
+    emit(
+      ListCardsChanged(
+        state.data.copyWith(listCards: listCards, selectedListCards: []),
+      ),
+    );
   }
 
   void updateListCard({required List<CardDataModel> listCards}) {
     emit(ListCardsChanged(state.data.copyWith(listCards: listCards)));
+  }
+
+  void changeSelectedListCards(String id) {
+    var selectedListCards = [...state.data.selectedListCards];
+    if (selectedListCards.contains(id)) {
+      selectedListCards.remove(id);
+    } else {
+      selectedListCards.add(id);
+    }
+    emit(
+      SelectedListCardsChanged(
+        state.data.copyWith(selectedListCards: selectedListCards),
+      ),
+    );
   }
 }
 

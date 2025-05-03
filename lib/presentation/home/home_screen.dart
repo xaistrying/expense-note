@@ -1,8 +1,10 @@
+import 'package:expense_note/app/style/gap.dart';
 import 'package:expense_note/domain/model/card_data_model.dart';
 import 'package:expense_note/presentation/home/cubit/handle_card_cubit.dart';
 import 'package:expense_note/presentation/home/widget/custom_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 import '../../app/style/app_dimens.dart';
 import 'widget/action_button_widget.dart';
@@ -26,9 +28,38 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         titleSpacing: AppDimens.padding16,
-        title: Text(
-          'data',
-          style: TextStyle(fontSize: AppDimens.fontSizeTitle),
+        title: BlocBuilder<HandleCardCubit, HandleCardState>(
+          builder: (context, state) {
+            if (state.data.isEditingEnabled) {
+              return Row(
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    style: IconButton.styleFrom(
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      visualDensity: VisualDensity.compact,
+                      padding: EdgeInsets.zero,
+                    ),
+                    icon: Icon(MingCute.round_line, size: AppDimens.iconSize24),
+                  ),
+                  Gap.h04(),
+                  Text(
+                    '${state.data.selectedListCards.length} data',
+                    style: TextStyle(fontSize: AppDimens.fontSizeTitle),
+                  ),
+                ],
+              );
+            }
+            return Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppDimens.padding4,
+              ),
+              child: Text(
+                'data',
+                style: TextStyle(fontSize: AppDimens.fontSizeTitle),
+              ),
+            );
+          },
         ),
         actions: [ActionButtonWidget()],
       ),
