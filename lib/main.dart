@@ -1,10 +1,14 @@
+import 'package:expense_note/app/di/injector.dart';
 import 'package:expense_note/app/router/app_router.dart';
 import 'package:expense_note/app/style/app_theme.dart';
 import 'package:flutter/material.dart';
 
 import 'app/l10n/generated/app_localizations.dart';
 
-void main()  {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initDependencies();
+
   runApp(const MainApp());
 }
 

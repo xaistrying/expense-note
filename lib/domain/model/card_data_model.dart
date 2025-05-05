@@ -34,4 +34,9 @@ class CardDataModel {
     "price": price,
     "times": times,
   };
+
+  static fromList(data) {
+    var list = data as List;
+    return list.map((map) => CardDataModel.fromJson(map)).toList();
+  }
 }
